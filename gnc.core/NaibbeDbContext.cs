@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Naibbe.Model;
 
-namespace Naibbe;
+namespace d9.gnc.core;
 
 internal class NaibbeDbContext : DbContext
 {

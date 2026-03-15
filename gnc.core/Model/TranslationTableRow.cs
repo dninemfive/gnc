@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Naibbe;
+namespace Naibbe.Model;
 
 public class TranslationTableRow
 {

@@ -1,4 +1,5 @@
 ﻿using d9.utl;
+using Naibbe.Model;
 
 namespace Naibbe.TableProviders;
 

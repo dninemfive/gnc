@@ -1,8 +1,10 @@
-﻿using d9.utl.types;
+﻿using CsvHelper;
+using d9.utl.types;
 using Naibbe.Respacers;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 
-namespace Naibbe;
+namespace Naibbe.Model;
 
 public class TranslationTable
 {
@@ -19,4 +21,13 @@ public class TranslationTable
     }
     public TranslationTableRow this[string key]
         => _cache[key];
+    public static TranslationTable LoadCsv(string basePath, string name)
+    {
+        using CsvReader reader = new(File.OpenText(Path.Join(basePath, $"{name}.csv")), CultureInfo.InvariantCulture);
+        return new()
+        {
+            Name = name,
+            Data = [.. reader.GetRecords<TranslationTableRow>()]
+        };
+    }
 }
