@@ -1,5 +1,6 @@
 ﻿using d9.gnc.core.Model;
 using d9.gnc.core.Normalizers;
+using d9.gnc.core.Properties;
 using d9.gnc.core.Respacers;
 using d9.gnc.core.TableProviders;
 
@@ -7,14 +8,14 @@ namespace d9.gnc.core;
 
 public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, ITableProvider tableProvider, string space = " ")
 {
-    public static NaibbeCipher MakeDefault(string basePath, int seed = 0xd9)
+    public static async Task<NaibbeCipher> MakeDefault(string basePath, int seed = 0xd9)
     {
-        TranslationTable alpha   = TranslationTable.LoadCsv(basePath, "alpha");
-        TranslationTable beta_1  = TranslationTable.LoadCsv(basePath, "beta_1");
-        TranslationTable beta_2  = TranslationTable.LoadCsv(basePath, "beta_2");
-        TranslationTable beta_3  = TranslationTable.LoadCsv(basePath, "beta_3");
-        TranslationTable gamma_1 = TranslationTable.LoadCsv(basePath, "gamma_1");
-        TranslationTable gamma_2 = TranslationTable.LoadCsv(basePath, "gamma_2");
+        TranslationTable alpha   = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Alpha);
+        TranslationTable beta_1  = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Beta1);
+        TranslationTable beta_2  = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Beta2);
+        TranslationTable beta_3  = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Beta3);
+        TranslationTable gamma_1 = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Gamma1);
+        TranslationTable gamma_2 = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Gamma2);
 
         Random random = new(seed);
         NaibbeCipher result = new(
