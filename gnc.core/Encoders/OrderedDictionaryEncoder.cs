@@ -38,7 +38,7 @@ public class OrderedDictionaryEncoder(params IEnumerable<(string input, string o
         );
     public string Encode(string text)
     {
-        foreach((string input, string output) in dict.OrderBy(x => x.input.Length))
+        foreach((string input, string output) in dict.OrderByDescending(x => x.input.Length))
             text = text.Replace(input, output);
         return text;
     }

@@ -1,31 +1,29 @@
 ﻿@page "/naibbe"
+@using gnc.gui.Components
 
 <h3>Naibbe</h3>
-
-<div class="voynich">&#x000FF40C;&#x000FF428;&#x000FF40F;</div>
 
 <button class="btn btn-primary voynich" @onclick="DoStuff">&#xff401;&#xff410;&#xff400;&#xff408;&#xff408;&#xff407;</button>
 
 <p>@plaintext</p>
-<p>@preparedText</p>
-<p>@latinCiphertext</p>
-<p class="voynich">@voynichCiphertext</p>
+<ol>
+@foreach((RespacedLetter letter, string latin, string voynich) in glossedText)
+{
+    <gnc.gui.Components.VoynichGloss Letter=@letter LatinText=@latin VoynichText=@voynich/> 
+}
+</ol>
 
 @code {
 
     private string plaintext = "the quick brown fox jumped over the lazy dog";
-    private string preparedText = "(prepared text goes here)";
-    private string latinCiphertext = "(latin ciphertext goes here)";
-    private string voynichCiphertext = "(voynich ciphertext goes here)";
+    private List<(RespacedLetter letter, string latin, string voynich)> glossedText = [];
 
-    private async Task DoStuff() {
-
+    private async Task DoStuff() {        
+        glossedText.Clear();
         NaibbeCipher cipher = await NaibbeCipher.MakeDefault(@"C:\Users\dninemfive\Documents\workspaces\misc\Naibbe\data");
 
-        plaintext = "the quick brown fox jumped over the lazy dog";
-        preparedText = cipher.Prepare(plaintext).Select(x => x.WithSpace()).Join();
-        latinCiphertext = cipher.Encipher(plaintext).Join();
-        string ciphertext = cipher.Encipher(plaintext).Join().Replace("<", "").Replace(">", "");
-        voynichCiphertext = OrderedDictionaryEncoder.VoynichEveEncoder.Encode(ciphertext);
+        foreach (RespacedLetter letter in cipher.Prepare(plaintext))
+            foreach (string ciphertext in cipher.Encipher(letter))
+                glossedText.Add((letter, ciphertext, OrderedDictionaryEncoder.VoynichEveEncoder.Encode(ciphertext)));
     }
 }

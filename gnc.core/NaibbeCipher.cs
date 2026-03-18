@@ -20,9 +20,9 @@ public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, IT
         Random random = new(seed);
         NaibbeCipher result = new(
             new CompositeNormalizer(
-                new LowercaseNormalizer(),
-                new RegexNormalizer(new("[^a-z]+")),
-                new DictionaryNormalizer(('k', 'c'), ('j', 'i'), ('w', 'u'))
+                new UppercaseNormalizer(),
+                new RegexNormalizer(new("[^A-Z]+")),
+                new DictionaryNormalizer(('K', 'C'), ('J', 'I'), ('W', 'U'))
             ),
             new SimplifiedRespacer(random),
             new SimpleTableProvider(random,
