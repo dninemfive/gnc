@@ -1,21 +1,22 @@
 ﻿@page "/naibbe"
 @using gnc.gui.Components
 
-<h3>Naibbe</h3>
+<title>Naibbe Cipher</title>
 
-<button class="btn btn-primary voynich" @onclick="DoStuff">&#xff401;&#xff410;&#xff400;&#xff408;&#xff408;&#xff407;</button>
+<InputText @bind-Value="plaintext"/>
+<button class="btn btn-primary" @onclick="DoStuff">&#xff401;&#xff410;&#xff400;&#xff408;&#xff408;&#xff407;</button>
 
 <p>@plaintext</p>
-<ol>
-@foreach((RespacedLetter letter, string latin, string voynich) in glossedText)
-{
-    <gnc.gui.Components.VoynichGloss RespacedLetter=@letter LatinText=@latin VoynichText=@voynich/> 
-}
-</ol>
+<output style="box-sizing: border-box">
+    @foreach ((RespacedLetter letter, string latin, string voynich) in glossedText)
+    {
+        <gnc.gui.Components.VoynichGloss RespacedLetter=@letter LatinText=@latin VoynichText=@voynich />
+    }
+</output>
 
 @code {
 
-    private string plaintext = "the quick brown fox jumped over the lazy dog";
+    private string plaintext = "";
     private List<(RespacedLetter letter, string latin, string voynich)> glossedText = [];
 
     private async Task DoStuff() {        
