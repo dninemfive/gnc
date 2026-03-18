@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Naibbe.Extensions;
+namespace d9.gnc.core.Extensions;
 
 public static class StringExtensions
 {

@@ -1,7 +1,7 @@
-﻿using Naibbe.Model;
-using Naibbe.Normalizers;
-using Naibbe.Respacers;
-using Naibbe.TableProviders;
+﻿using d9.gnc.core.Model;
+using d9.gnc.core.Normalizers;
+using d9.gnc.core.Respacers;
+using d9.gnc.core.TableProviders;
 
 namespace d9.gnc.core;
 

@@ -1,7 +1,6 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace Naibbe.Normalizers;
+namespace d9.gnc.core.Normalizers;
 
 public class RegexNormalizer(Regex regex, string replacement = "")
     : ITextNormalizer

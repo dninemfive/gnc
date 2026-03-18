@@ -1,6 +1,4 @@
-﻿using d9.utl;
-
-namespace Naibbe.Respacers;
+﻿namespace d9.gnc.core.Respacers;
 
 public record RespacedLetter(string Letter, LetterType Type)
 {

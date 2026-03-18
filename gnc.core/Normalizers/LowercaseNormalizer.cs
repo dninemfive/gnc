@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Naibbe.Normalizers;
+namespace d9.gnc.core.Normalizers;
 
 public class LowercaseNormalizer(CultureInfo? culture = null)
     : ITextNormalizer

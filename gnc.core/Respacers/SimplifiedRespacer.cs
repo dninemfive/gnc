@@ -1,6 +1,6 @@
-﻿using Naibbe.Extensions;
+﻿using d9.gnc.core.Extensions;
 
-namespace Naibbe.Respacers;
+namespace d9.gnc.core.Respacers;
 
 /// <summary>
 /// Chunks text into standard units for mapping with the cipher. In the original Naibbe cipher,

@@ -1,10 +1,9 @@
 ﻿using CsvHelper;
 using d9.utl.types;
-using Naibbe.Respacers;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
-namespace Naibbe.Model;
+namespace d9.gnc.core.Model;
 
 public class TranslationTable
 {

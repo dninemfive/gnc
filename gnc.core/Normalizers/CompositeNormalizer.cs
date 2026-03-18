@@ -1,4 +1,4 @@
-﻿namespace Naibbe.Normalizers;
+﻿namespace d9.gnc.core.Normalizers;
 
 public class CompositeNormalizer(params IEnumerable<ITextNormalizer> normalizers)
     : ITextNormalizer

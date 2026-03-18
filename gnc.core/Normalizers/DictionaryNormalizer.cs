@@ -1,7 +1,4 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
-
-namespace Naibbe.Normalizers;
+﻿namespace d9.gnc.core.Normalizers;
 
 public class DictionaryNormalizer(params IEnumerable<(char k, char v)> replacements)
     : ITextNormalizer

@@ -1,4 +1,4 @@
-﻿namespace Naibbe.Respacers;
+﻿namespace d9.gnc.core.Respacers;
 
 public enum LetterType
 {

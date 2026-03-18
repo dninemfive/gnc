@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Naibbe.Model;
+﻿using d9.gnc.core.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace d9.gnc.core;
 

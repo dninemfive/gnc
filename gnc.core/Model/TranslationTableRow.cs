@@ -1,8 +1,7 @@
-﻿using Naibbe.Respacers;
+﻿using d9.gnc.core.Respacers;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 
-namespace Naibbe.Model;
+namespace d9.gnc.core.Model;
 
 public class TranslationTableRow
 {

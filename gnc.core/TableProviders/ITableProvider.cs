@@ -1,6 +1,6 @@
-﻿using Naibbe.Model;
+﻿using d9.gnc.core.Model;
 
-namespace Naibbe.TableProviders;
+namespace d9.gnc.core.TableProviders;
 
 public interface ITableProvider
 {
