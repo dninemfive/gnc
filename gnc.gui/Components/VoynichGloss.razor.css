@@ -1,0 +1,28 @@
+﻿.card {
+    display: inline-flex;
+    flex-direction: column;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    padding: 0.5%;
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+}
+.prefix {
+    text-align: right;
+    border-left: 2px solid black;
+    border-right: 1px dashed gray;
+}
+.suffix {
+    text-align: left;
+    border-left: 1px dashed gray;
+    border-right: 2px solid black;
+}
+.unigram {
+    text-align: center;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}
+.error {
+    text-align: center;
+    border: 3px double red;
+}
