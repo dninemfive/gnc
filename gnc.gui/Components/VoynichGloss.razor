@@ -1,0 +1,21 @@
+﻿@if(!string.IsNullOrWhiteSpace(LatinText))
+{
+    <div style="display: inline-flex;flex-direction: column;border: 1px solid black;text-align: center;">
+        <RespacedLetterView Data="@Letter"></RespacedLetterView>
+        <p>@LatinText</p>
+        <p class="voynich">@VoynichText</p>
+    </div>
+} 
+else
+{
+    <div style="display: inline-block;min-width: 5px"/>
+}
+
+@code {
+    [Parameter]
+    public RespacedLetter? Letter { get; set; } = null;
+    [Parameter]
+    public string LatinText { get; set; } = "LATIN";
+    [Parameter]
+    public string VoynichText { get; set; } = "VOYNICH";
+}
