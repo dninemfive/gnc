@@ -6,7 +6,6 @@
 <InputText @bind-Value="plaintext"/>
 <button class="btn btn-primary" @onclick="DoStuff">&#xff401;&#xff410;&#xff400;&#xff408;&#xff408;&#xff407;</button>
 
-<p>@plaintext</p>
 <output style="box-sizing: border-box">
     @foreach ((RespacedLetter letter, string latin, string voynich) in glossedText)
     {
