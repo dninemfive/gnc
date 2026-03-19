@@ -6,7 +6,6 @@ namespace d9.gnc.core.TableProviders;
 public class SimpleTableProvider(Random? random = null, params IEnumerable<(TranslationTable table, double weight)> weights)
     : ITableProvider
 {
-    public Random Random => random ?? new();
     public TranslationTable NextTable()
-        => weights.WeightedRandomElement(x => x.weight).table;
+        => weights.WeightedRandomElement(x => x.weight, random: random).table;
 }

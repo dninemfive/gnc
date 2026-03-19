@@ -11,11 +11,6 @@ public class TranslationTable(IReadOnlyDictionary<string, TranslationSet> data)
         : this(data.Select(x => (x.Letter, x.Translations)).ToDictionary()) { }
     public TranslationSet this[string key]
         => Data[key.ToUpper()];
-    public static TranslationTable LoadCsv(string basePath, string name)
-    {
-        using CsvReader reader = new(File.OpenText(Path.Join(basePath, $"{name}.csv")), CultureInfo.InvariantCulture);
-        return new(reader.GetRecords<TranslationTableRow>());
-    }
     public static async Task<TranslationTable> ParseCsvAsync(string csv)
     {
         using CsvReader reader = new(new StringReader(csv), CultureInfo.InvariantCulture);

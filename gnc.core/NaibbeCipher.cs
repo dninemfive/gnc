@@ -5,7 +5,7 @@ using d9.gnc.core.Respacers;
 using d9.gnc.core.TableProviders;
 
 namespace d9.gnc.core;
-
+// todo: permit non-encipherable text (e.g. punctuation, digits)
 public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, ITableProvider tableProvider, string space = " ")
 {
     public static async Task<NaibbeCipher> MakeDefault(string basePath, int seed = 0xd9)
