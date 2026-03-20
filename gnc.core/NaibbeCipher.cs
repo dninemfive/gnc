@@ -34,25 +34,23 @@ public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, IT
 
         return result;
     }
-    public IEnumerable<RespacedLetter> Prepare(string text)
+    public IEnumerable<RespacedWord> Prepare(string text)
         => respacer.Respace(normalizer.Normalize(text));
-    public IEnumerable<string> Encipher(RespacedLetter letter)
+    public string Encipher(RespacedLetter letter)
     {
         (string key, LetterType type) = letter;
-        yield return tableProvider.NextTable()[key][type];
-        if (type is LetterType.Unigram or LetterType.Suffix)
-            yield return space;
+        return tableProvider.NextTable()[key][type];
     }
     public IEnumerable<string> Encipher(string text)
     {
-        foreach (RespacedLetter letter in Prepare(text))
-            foreach (string part in Encipher(letter))
-                yield return part;
+        foreach (RespacedWord word in Prepare(text))
+            foreach(RespacedLetter letter in word)
+                yield return Encipher(letter);
     }
     public async IAsyncEnumerable<string> EncipherAsync(string text)
     {
-        foreach (RespacedLetter letter in Prepare(text))
-            foreach (string part in Encipher(text))
-                yield return part;
+        foreach (RespacedWord word in Prepare(text))
+            foreach (RespacedLetter letter in word)
+                yield return Encipher(letter);
     }
 }

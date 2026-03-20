@@ -10,14 +10,13 @@ public class SimplifiedRespacer(Random? random = null)
     : ITextRespacer
 {
     public readonly Random Random = random ?? new();
-    public IEnumerable<RespacedLetter> Respace(string text)
+    public IEnumerable<RespacedWord> Respace(string text)
     {
         int index = 0;
         while (index < text.Length)
         {
             int length = Random.Next(1, 3);
-            foreach(RespacedLetter letter in RespacedLetter.FromString(text.SubstringSafe(index, length)))
-                yield return letter;
+            yield return RespacedWord.FromUnigramOrBigram(text.Substring(index, length));
             index += length;
         }
     }

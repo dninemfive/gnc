@@ -6,5 +6,5 @@
 /// </summary>
 public interface ITextRespacer
 {
-    public IEnumerable<RespacedLetter> Respace(string text);
+    public IEnumerable<RespacedWord> Respace(string text);
 }
