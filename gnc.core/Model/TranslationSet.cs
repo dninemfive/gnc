@@ -1,4 +1,4 @@
-﻿using d9.gnc.core.Respacers;
+﻿using d9.gnc.core.Types;
 
 namespace d9.gnc.core.Model;
 

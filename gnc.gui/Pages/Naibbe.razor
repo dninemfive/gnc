@@ -7,23 +7,25 @@
 <button class="btn btn-primary" @onclick="DoStuff">&#xff401;&#xff410;&#xff400;&#xff408;&#xff408;&#xff407;</button>
 
 <output style="box-sizing: border-box">
-    @foreach ((RespacedLetter letter, string latin, string voynich) in glossedText)
+    @foreach (HistoryWord word in words)
     {
-        <gnc.gui.Components.VoynichGloss RespacedLetter=@letter LatinText=@latin VoynichText=@voynich />
+        <d9.gnc.gui.Components.WordView Word="word"/>
     }
 </output>
 
 @code {
 
     private string plaintext = "";
-    private List<(RespacedLetter letter, string latin, string voynich)> glossedText = [];
+    private List<HistoryWord> words = [];
 
     private async Task DoStuff() {        
-        glossedText.Clear();
+        words.Clear();
         NaibbeCipher cipher = await NaibbeCipher.MakeDefault(@"C:\Users\dninemfive\Documents\workspaces\misc\Naibbe\data");
 
-        foreach (RespacedWord word in cipher.Prepare(plaintext))
-            foreach (string ciphertext in cipher.Encipher(word))
-                glossedText.Add((word, ciphertext, OrderedDictionaryEncoder.VoynichEveEncoder.Encode(ciphertext)));
+        foreach (RespacedWord respacedWord in cipher.Prepare(plaintext))
+        {
+            EncipheredWord encipheredWord = cipher.Encipher(respacedWord);
+
+        }
     }
 }

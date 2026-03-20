@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using d9.gnc.core.Types.Abstract;
+using System.Collections;
 
 namespace d9.gnc.core.Types;
 
