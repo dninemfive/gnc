@@ -1,10 +1,10 @@
 ﻿@if(Word is not null)
 {
-    <div style="display: inline-flex; flex-direction: row">
+    <div style="display: inline-flex; flex-direction: row; box-sizing: border-box;">
         @foreach (LetterHistory letterHistory in @Word)
         {
             (string letter, string latin, string voynich, LetterType type) = letterHistory;
-            <VoynichGloss RespacedLetter="(letter, type)" LatinText="latin" VoynichText="voynich" />
+            <VoynichGloss RespacedLetter="(letter, type)" LatinText="@latin" VoynichText="@voynich"/>
         }
     </div>
 }

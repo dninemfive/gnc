@@ -1,17 +1,23 @@
 ﻿@page "/naibbe"
+@using d9.gnc.gui.Components
 @using gnc.gui.Components
 
 <title>Naibbe Cipher</title>
 
-<InputText @bind-Value="plaintext"/>
-<button class="btn btn-primary" @onclick="DoStuff">&#xff401;&#xff410;&#xff400;&#xff408;&#xff408;&#xff407;</button>
+<div style="display: flex; flex-direction: column;">
+    <div class="debug-outline">
+        <InputText @bind-Value="plaintext" />
+        <button class="btn btn-primary" @onclick="DoStuff">&#xff401;&#xff410;&#xff400;&#xff408;&#xff408;&#xff407;</button>
+    </div>
 
-<output style="box-sizing: border-box">
-    @foreach (HistoryWord word in words)
-    {
-        <d9.gnc.gui.Components.WordView Word="word"/>
-    }
-</output>
+    <output class="debug-outline">
+        @foreach (HistoryWord word in words)
+        {
+            <d9.gnc.gui.Components.WordView Word="word" />
+            <d9.gnc.gui.Components.VoynichGloss LatinText=" " />
+        }
+    </output>
+</div>
 
 @code {
 
@@ -21,11 +27,12 @@
     private async Task DoStuff() {        
         words.Clear();
         NaibbeCipher cipher = await NaibbeCipher.MakeDefault(@"C:\Users\dninemfive\Documents\workspaces\misc\Naibbe\data");
+        IEncoder encoder = OrderedDictionaryEncoder.VoynichEveEncoder;
 
         foreach (RespacedWord respacedWord in cipher.Prepare(plaintext))
         {
             EncipheredWord encipheredWord = cipher.Encipher(respacedWord);
-
+            words.Add(HistoryWord.FromWord(respacedWord, encipheredWord, encoder));
         }
     }
 }

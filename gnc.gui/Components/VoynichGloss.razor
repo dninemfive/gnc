@@ -2,7 +2,8 @@
 {
     <div class="card @Subclass" style="border-radius: 0">
         <p style="font-size: xx-large;">@Letter</p>
-        <ruby>@VoynichText <rp>(</rp><rt>@LatinText</rt><rp>)</rp></ruby>
+        <p style="font-size: small;">@LatinText</p>
+        <p style="font-size: large;">@VoynichText</p>
     </div>
 } 
 else
@@ -18,6 +19,6 @@ else
     [Parameter]
     public string VoynichText { get; set; } = "VOYNICH";
 
-    public string Letter => RespacedLetter?.Letter ?? "☒";
+    public string Letter => RespacedLetter?.Value ?? "☒";
     public string Subclass => RespacedLetter?.Type.ToString().ToLower() ?? "error";
 }
