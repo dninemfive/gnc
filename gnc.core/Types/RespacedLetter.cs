@@ -1,6 +1,9 @@
-﻿namespace d9.gnc.core.Respacers;
+﻿using d9.gnc.core.Types.Abstract;
 
-public record RespacedLetter(string Letter, LetterType Type)
+namespace d9.gnc.core.Types;
+
+public class RespacedLetter(string s, LetterType t)
+    : Letter<string>(s, t)
 {
     public RespacedLetter(char c, LetterType type)
         : this("" + c, type) { }
@@ -8,6 +11,4 @@ public record RespacedLetter(string Letter, LetterType Type)
         => new(tuple.c, tuple.t);
     public static implicit operator RespacedLetter((string s, LetterType t) tuple)
         => new(tuple.s, tuple.t);
-    public string WithSpace()
-        => $"{Letter}{(Type is LetterType.Unigram or LetterType.Suffix ? " " : "")}";
 }

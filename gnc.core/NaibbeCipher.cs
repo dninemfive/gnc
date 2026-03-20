@@ -3,10 +3,11 @@ using d9.gnc.core.Normalizers;
 using d9.gnc.core.Properties;
 using d9.gnc.core.Respacers;
 using d9.gnc.core.TableProviders;
+using d9.gnc.core.Types;
 
 namespace d9.gnc.core;
 // todo: permit non-encipherable text (e.g. punctuation, digits)
-public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, ITableProvider tableProvider, string space = " ")
+public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, ITableProvider tableProvider)
 {
     public static async Task<NaibbeCipher> MakeDefault(string basePath, int seed = 0xd9)
     {
@@ -36,21 +37,21 @@ public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, IT
     }
     public IEnumerable<RespacedWord> Prepare(string text)
         => respacer.Respace(normalizer.Normalize(text));
-    public string Encipher(RespacedLetter letter)
+    public EncipheredLetter Encipher(RespacedLetter letter)
     {
         (string key, LetterType type) = letter;
-        return tableProvider.NextTable()[key][type];
+        return (tableProvider.NextTable()[key][type], type);
     }
-    public IEnumerable<string> Encipher(string text)
+    public EncipheredWord Encipher(RespacedWord word)
+        => new(word.Select(Encipher));
+    public IEnumerable<EncipheredWord> Encipher(IEnumerable<RespacedWord> text)
     {
-        foreach (RespacedWord word in Prepare(text))
-            foreach(RespacedLetter letter in word)
-                yield return Encipher(letter);
+        foreach (RespacedWord word in text)
+            yield return Encipher(word);
     }
-    public async IAsyncEnumerable<string> EncipherAsync(string text)
+    public async IAsyncEnumerable<EncipheredWord> EncipherAsync(IAsyncEnumerable<RespacedWord> text)
     {
-        foreach (RespacedWord word in Prepare(text))
-            foreach (RespacedLetter letter in word)
-                yield return Encipher(letter);
+        await foreach (RespacedWord word in text)
+            yield return Encipher(word);
     }
 }

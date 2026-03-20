@@ -22,8 +22,8 @@
         glossedText.Clear();
         NaibbeCipher cipher = await NaibbeCipher.MakeDefault(@"C:\Users\dninemfive\Documents\workspaces\misc\Naibbe\data");
 
-        foreach (RespacedLetter letter in cipher.Prepare(plaintext))
-            foreach (string ciphertext in cipher.Encipher(letter))
-                glossedText.Add((letter, ciphertext, OrderedDictionaryEncoder.VoynichEveEncoder.Encode(ciphertext)));
+        foreach (RespacedWord word in cipher.Prepare(plaintext))
+            foreach (string ciphertext in cipher.Encipher(word))
+                glossedText.Add((word, ciphertext, OrderedDictionaryEncoder.VoynichEveEncoder.Encode(ciphertext)));
     }
 }
