@@ -14,7 +14,9 @@
             <d9.gnc.gui.Components.WordView Word="word"/>
         }
     </output>
-    <p>@OutputText</p>
+    <div class="debug-outline">
+        <p>@OutputText</p>
+    </div>
 </div>
 
 @code {
@@ -28,7 +30,7 @@
         NaibbeCipher cipher = await NaibbeCipher.MakeDefault();
         IEncoder encoder = OrderedDictionaryEncoder.VoynichEveEncoder;
 
-        foreach (RespacedWord respacedWord in cipher.Prepare(plaintext))
+        await foreach (RespacedWord respacedWord in cipher.Prepare(plaintext))
         {
             EncipheredWord encipheredWord = cipher.Encipher(respacedWord);
             words.Add(HistoryWord.FromWord(respacedWord, encipheredWord, encoder));

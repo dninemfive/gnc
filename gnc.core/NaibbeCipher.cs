@@ -22,7 +22,7 @@ public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, IT
         ITableProvider tableProvider = new SimpleTableProvider(random,
             (alpha, 5),
             (beta_1, 2), (beta_2, 2), (beta_3, 2),
-            (gamma_1, 1), (gamma_1, 1));
+            (gamma_1, 1), (gamma_2, 1));
         NaibbeCipher result = new(
             new CompositeNormalizer(
                 new UppercaseNormalizer(),
@@ -35,8 +35,11 @@ public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, IT
 
         return result;
     }
-    public IEnumerable<RespacedWord> Prepare(string text)
-        => respacer.Respace(normalizer.Normalize(text));
+    public async IAsyncEnumerable<RespacedWord> Prepare(string text)
+    {
+        await foreach (RespacedWord word in respacer.RespaceAsync(await normalizer.NormalizeAsync(text)))
+            yield return word;
+    }
     public EncipheredLetter Encipher(RespacedLetter letter)
     {
         (string key, LetterType type) = letter;
