@@ -1,6 +1,7 @@
 ﻿using d9.gnc.core.Encoders;
 using d9.gnc.core.Types;
 using d9.gnc.core.Types.Abstract;
+using d9.utl;
 
 namespace d9.gnc.gui.Model;
 
@@ -20,4 +21,6 @@ public class HistoryWord(params IEnumerable<LetterHistory> letters)
         }
         return new(letters);
     }
+    public string VoynichText
+        => letters.Select(x => x.Voynich).Join();
 }
