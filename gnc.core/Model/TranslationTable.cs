@@ -1,32 +1,18 @@
 ﻿using CsvHelper;
-using d9.utl.types;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 namespace d9.gnc.core.Model;
 
-public class TranslationTable
+public class TranslationTable(IReadOnlyDictionary<string, TranslationSet> data)
 {
-    [Key]
-    public required string Name { get; set; }
-    public required List<TranslationTableRow> Data { get; set; }
-    private DefaultDictionary<string, TranslationTableRow> _cache
+    public IReadOnlyDictionary<string, TranslationSet> Data { get; init; } = data;
+    public TranslationTable(IEnumerable<TranslationTableRow> data)
+        : this(data.Select(x => (x.Letter, x.Translations)).ToDictionary()) { }
+    public TranslationSet this[string key]
+        => Data[key.ToUpper()];
+    public static async Task<TranslationTable> ParseCsvAsync(string csv)
     {
-        get
-        {
-            field ??= new(k => Data.Where(x => x.Letter.Equals(k, StringComparison.InvariantCultureIgnoreCase)).First());
-            return field;
-        }
-    }
-    public TranslationTableRow this[string key]
-        => _cache[key];
-    public static TranslationTable LoadCsv(string basePath, string name)
-    {
-        using CsvReader reader = new(File.OpenText(Path.Join(basePath, $"{name}.csv")), CultureInfo.InvariantCulture);
-        return new()
-        {
-            Name = name,
-            Data = [.. reader.GetRecords<TranslationTableRow>()]
-        };
+        using CsvReader reader = new(new StringReader(csv), CultureInfo.InvariantCulture);
+        return new(await Task.Run(() => reader.GetRecordsAsync<TranslationTableRow>().ToBlockingEnumerable()));
     }
 }

@@ -1,0 +1,19 @@
+﻿@if(Word is not null)
+{
+    <div class="word">
+        @foreach (LetterHistory letterHistory in @Word)
+        {
+            (string letter, string latin, string voynich, LetterType type) = letterHistory;
+            <VoynichGloss RespacedLetter="(letter, type)" LatinText="@latin" VoynichText="@voynich"/>
+        }
+    </div>
+}
+else
+{
+    <div style="font-size: xx-large; min-width: 0.5em;"/>
+}
+
+@code {
+    [Parameter]
+    public HistoryWord? Word { get; set; } = null;
+}

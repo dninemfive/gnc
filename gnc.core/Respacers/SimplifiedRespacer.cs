@@ -1,4 +1,5 @@
 ﻿using d9.gnc.core.Extensions;
+using d9.gnc.core.Types;
 
 namespace d9.gnc.core.Respacers;
 
@@ -10,14 +11,13 @@ public class SimplifiedRespacer(Random? random = null)
     : ITextRespacer
 {
     public readonly Random Random = random ?? new();
-    public IEnumerable<RespacedLetter> Respace(string text)
+    public IEnumerable<RespacedWord> Respace(string text)
     {
         int index = 0;
         while (index < text.Length)
         {
             int length = Random.Next(1, 3);
-            foreach(RespacedLetter letter in RespacedLetter.FromString(text.SubstringSafe(index, length)))
-                yield return letter;
+            yield return RespacedWord.FromUnigramOrBigram(text.SubstringSafe(index, length));
             index += length;
         }
     }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-namespace gnc.gui;
+namespace d9.gnc.gui;
 
 public class Program
 {

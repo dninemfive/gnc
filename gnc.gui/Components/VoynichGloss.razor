@@ -1,0 +1,24 @@
+﻿@if(!string.IsNullOrWhiteSpace(LatinText))
+{
+    <div class="card @Subclass" style="border-radius: 0">
+        <p style="font-size: xx-large; line-height: 0.8">@Letter</p>
+        <p style="font-size: small;"><i>@LatinText</i></p>
+        <p style="font-size: large;">@VoynichText</p>
+    </div>
+} 
+else
+{
+    <div style="display: inline-block;min-width: 1%"/>
+}
+
+@code {
+    [Parameter]
+    public RespacedLetter? RespacedLetter { get; set; } = null;
+    [Parameter]
+    public string LatinText { get; set; } = "LATIN";
+    [Parameter]
+    public string VoynichText { get; set; } = "VOYNICH";
+
+    public string Letter => RespacedLetter?.Value ?? "☒";
+    public string Subclass => RespacedLetter?.Type.ToString().ToLower() ?? "error";
+}

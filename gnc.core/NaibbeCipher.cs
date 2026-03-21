@@ -1,27 +1,29 @@
 ﻿using d9.gnc.core.Model;
 using d9.gnc.core.Normalizers;
+using d9.gnc.core.Properties;
 using d9.gnc.core.Respacers;
 using d9.gnc.core.TableProviders;
+using d9.gnc.core.Types;
 
 namespace d9.gnc.core;
-
-public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, ITableProvider tableProvider, string space = " ")
+// todo: permit non-encipherable text (e.g. punctuation, digits)
+public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, ITableProvider tableProvider)
 {
-    public static NaibbeCipher MakeDefault(string basePath, int seed = 0xd9)
+    public static async Task<NaibbeCipher> MakeDefault(string basePath, int seed = 0xd9)
     {
-        TranslationTable alpha   = TranslationTable.LoadCsv(basePath, "alpha");
-        TranslationTable beta_1  = TranslationTable.LoadCsv(basePath, "beta_1");
-        TranslationTable beta_2  = TranslationTable.LoadCsv(basePath, "beta_2");
-        TranslationTable beta_3  = TranslationTable.LoadCsv(basePath, "beta_3");
-        TranslationTable gamma_1 = TranslationTable.LoadCsv(basePath, "gamma_1");
-        TranslationTable gamma_2 = TranslationTable.LoadCsv(basePath, "gamma_2");
+        TranslationTable alpha   = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Alpha);
+        TranslationTable beta_1  = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Beta1);
+        TranslationTable beta_2  = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Beta2);
+        TranslationTable beta_3  = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Beta3);
+        TranslationTable gamma_1 = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Gamma1);
+        TranslationTable gamma_2 = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Gamma2);
 
         Random random = new(seed);
         NaibbeCipher result = new(
             new CompositeNormalizer(
-                new LowercaseNormalizer(),
-                new RegexNormalizer(new("[^a-z]+")),
-                new DictionaryNormalizer(('k', 'c'), ('j', 'i'), ('w', 'u'))
+                new UppercaseNormalizer(),
+                new RegexNormalizer(new("[^A-Z]+")),
+                new DictionaryNormalizer(('K', 'C'), ('J', 'I'), ('W', 'U'))
             ),
             new SimplifiedRespacer(random),
             new SimpleTableProvider(random,
@@ -33,25 +35,23 @@ public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, IT
 
         return result;
     }
-    public IEnumerable<RespacedLetter> Prepare(string text)
+    public IEnumerable<RespacedWord> Prepare(string text)
         => respacer.Respace(normalizer.Normalize(text));
-    public IEnumerable<string> Encipher(RespacedLetter letter)
+    public EncipheredLetter Encipher(RespacedLetter letter)
     {
         (string key, LetterType type) = letter;
-        yield return tableProvider.NextTable()[key][type];
-        if (type is LetterType.Unigram or LetterType.Suffix)
-            yield return space;
+        return (tableProvider.NextTable()[key][type], type);
     }
-    public IEnumerable<string> Encipher(string text)
+    public EncipheredWord Encipher(RespacedWord word)
+        => new(word.Select(Encipher));
+    public IEnumerable<EncipheredWord> Encipher(IEnumerable<RespacedWord> text)
     {
-        foreach (RespacedLetter letter in Prepare(text))
-            foreach (string part in Encipher(letter))
-                yield return part;
+        foreach (RespacedWord word in text)
+            yield return Encipher(word);
     }
-    public async IAsyncEnumerable<string> EncipherAsync(string text)
+    public async IAsyncEnumerable<EncipheredWord> EncipherAsync(IAsyncEnumerable<RespacedWord> text)
     {
-        foreach (RespacedLetter letter in Prepare(text))
-            foreach (string part in Encipher(text))
-                yield return part;
+        await foreach (RespacedWord word in text)
+            yield return Encipher(word);
     }
 }

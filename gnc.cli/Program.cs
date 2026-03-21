@@ -6,9 +6,9 @@ namespace d9.gnc.cli;
 
 internal class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
-        NaibbeCipher cipher = NaibbeCipher.MakeDefault(@"C:\Users\dninemfive\Documents\workspaces\misc\Naibbe\data");
+        NaibbeCipher cipher = await NaibbeCipher.MakeDefault(@"C:\Users\dninemfive\Documents\workspaces\misc\Naibbe\data");
 
         string plaintext = "the quick brown fox jumped over the lazy dog";
 
