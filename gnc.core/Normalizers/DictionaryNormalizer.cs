@@ -3,10 +3,7 @@
 public class DictionaryNormalizer(params IEnumerable<(char k, char v)> replacements)
     : ITextNormalizer
 {
-    public string Normalize(string text)
-    {
-        foreach((char k, char v) in replacements)
-            text = text.Replace(k, v);
-        return text;
-    }
+    private IReadOnlyDictionary<char, char> _dict = replacements.ToDictionary();
+    public async Task<char?> NormalizeAsync(char c)
+        => _dict.TryGetValue(c, out char o) ? o : c;
 }

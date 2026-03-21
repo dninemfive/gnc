@@ -1,13 +1,11 @@
 ﻿@page "/naibbe"
-@using d9.gnc.gui.Components
-@using gnc.gui.Components
 
 <title>Naibbe Cipher</title>
 
 <div style="display: flex; flex-direction: column;">
     <div class="debug-outline" style="display: flex; flex-direction: column;">
         <InputTextArea id="inputText" @bind-Value="plaintext" style="width: 100%; margin-bottom: 1%;"/>
-        <button class="btn btn-primary" @onclick="DoStuff">&#xff401;&#xff410;&#xff400;&#xff408;&#xff408;&#xff407;</button>
+        <button class="btn btn-primary" @onclick="Encipher">&#xff401;&#xff410;&#xff400;&#xff408;&#xff408;&#xff407;</button>
     </div>
 
     <output for="inputText" class="debug-outline" style="display: flex; flex-direction: row; flex-wrap: wrap;">
@@ -25,9 +23,9 @@
     private List<HistoryWord> words = [];
     private string OutputText => words.Any() ? words.Select(x => x.VoynichText).JoinWithDelimiter(" ") : "";
 
-    private async Task DoStuff() {        
+    private async Task Encipher() {        
         words.Clear();
-        NaibbeCipher cipher = await NaibbeCipher.MakeDefault(@"C:\Users\dninemfive\Documents\workspaces\misc\Naibbe\data");
+        NaibbeCipher cipher = await NaibbeCipher.MakeDefault();
         IEncoder encoder = OrderedDictionaryEncoder.VoynichEveEncoder;
 
         foreach (RespacedWord respacedWord in cipher.Prepare(plaintext))

@@ -5,4 +5,5 @@ namespace d9.gnc.core.TableProviders;
 public interface ITableProvider
 {
     public TranslationTable NextTable();
+    public IEnumerable<TranslationTable> AllTables { get; }
 }

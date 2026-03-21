@@ -9,7 +9,7 @@ namespace d9.gnc.core;
 // todo: permit non-encipherable text (e.g. punctuation, digits)
 public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, ITableProvider tableProvider)
 {
-    public static async Task<NaibbeCipher> MakeDefault(string basePath, int seed = 0xd9)
+    public static async Task<NaibbeCipher> MakeDefault(int seed = 0xd9)
     {
         TranslationTable alpha   = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Alpha);
         TranslationTable beta_1  = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Beta1);
