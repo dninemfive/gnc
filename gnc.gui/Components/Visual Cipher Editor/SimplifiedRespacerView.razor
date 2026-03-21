@@ -1,0 +1,16 @@
+﻿@if(Respacer is not null)
+{
+    <label for="UnigramProportion">Unigram Proportion</label>
+    <input id="UnigramProportion" type="range" min="0" max="1" @bind-value="Respacer.UnigramProportion" />
+}
+else
+{
+    <div style="background-color: red; width: 5%">
+        <p>Missing <code>Respacer</code></p>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public SimplifiedRespacer? Respacer { get; set; } = null;
+}
