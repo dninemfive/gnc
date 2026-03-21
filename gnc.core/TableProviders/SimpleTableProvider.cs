@@ -8,4 +8,6 @@ public class SimpleTableProvider(Random? random = null, params IEnumerable<(Tran
 {
     public TranslationTable NextTable()
         => weights.WeightedRandomElement(x => x.weight, random: random).table;
+    public IEnumerable<TranslationTable> AllTables => weights.Select(x => x.table);
+
 }

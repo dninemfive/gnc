@@ -9,7 +9,7 @@ namespace d9.gnc.core;
 // todo: permit non-encipherable text (e.g. punctuation, digits)
 public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, ITableProvider tableProvider)
 {
-    public static async Task<NaibbeCipher> MakeDefault(string basePath, int seed = 0xd9)
+    public static async Task<NaibbeCipher> MakeDefault(int seed = 0xd9)
     {
         TranslationTable alpha   = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Alpha);
         TranslationTable beta_1  = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Beta1);
@@ -19,24 +19,27 @@ public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, IT
         TranslationTable gamma_2 = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Gamma2);
 
         Random random = new(seed);
+        ITableProvider tableProvider = new SimpleTableProvider(random,
+            (alpha, 5),
+            (beta_1, 2), (beta_2, 2), (beta_3, 2),
+            (gamma_1, 1), (gamma_2, 1));
         NaibbeCipher result = new(
             new CompositeNormalizer(
                 new UppercaseNormalizer(),
-                new RegexNormalizer(new("[^A-Z]+")),
-                new DictionaryNormalizer(('K', 'C'), ('J', 'I'), ('W', 'U'))
+                new DictionaryNormalizer(('K', 'C'), ('J', 'I'), ('W', 'U')),
+                new KeyFilterNormalizer(tableProvider)
             ),
             new SimplifiedRespacer(random),
-            new SimpleTableProvider(random,
-                (alpha, 5),
-                (beta_1, 2), (beta_2, 2), (beta_3, 2),
-                (gamma_1, 1), (gamma_2, 1)
-            )
+            tableProvider
         );
 
         return result;
     }
-    public IEnumerable<RespacedWord> Prepare(string text)
-        => respacer.Respace(normalizer.Normalize(text));
+    public async IAsyncEnumerable<RespacedWord> Prepare(string text)
+    {
+        await foreach (RespacedWord word in respacer.RespaceAsync(await normalizer.NormalizeAsync(text)))
+            yield return word;
+    }
     public EncipheredLetter Encipher(RespacedLetter letter)
     {
         (string key, LetterType type) = letter;

@@ -2,5 +2,5 @@
 
 public interface ITextNormalizer
 {
-    public string Normalize(string text);
+    public Task<string> NormalizeAsync(string text);
 }

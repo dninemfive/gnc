@@ -22,5 +22,5 @@ public class HistoryWord(params IEnumerable<LetterHistory> letters)
         return new(letters);
     }
     public string VoynichText
-        => letters.Select(x => x.Voynich).Join();
+        => _letters.Select(x => x.Voynich).Join();
 }

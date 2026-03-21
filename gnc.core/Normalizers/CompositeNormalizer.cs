@@ -3,10 +3,10 @@
 public class CompositeNormalizer(params IEnumerable<ITextNormalizer> normalizers)
     : ITextNormalizer
 {
-    public string Normalize(string text)
+    public async Task<string> NormalizeAsync(string text)
     {
         foreach(ITextNormalizer normalizer in normalizers)
-            text = normalizer.Normalize(text);
+            text = await normalizer.NormalizeAsync(text);
         return text;
     }
 }
