@@ -1,6 +1,6 @@
 ﻿@if(Word is not null)
 {
-    <div style="display: inline-flex; flex-direction: row; box-sizing: border-box;">
+    <div class="word">
         @foreach (LetterHistory letterHistory in @Word)
         {
             (string letter, string latin, string voynich, LetterType type) = letterHistory;
@@ -10,7 +10,7 @@
 }
 else
 {
-    <div style="background-color: red; min-width: 5%"/>
+    <div style="font-size: xx-large; min-width: 0.5em;"/>
 }
 
 @code {
