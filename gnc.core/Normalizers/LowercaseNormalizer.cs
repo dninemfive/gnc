@@ -5,6 +5,6 @@ namespace d9.gnc.core.Normalizers;
 public class LowercaseNormalizer(CultureInfo? culture = null)
     : ITextNormalizer
 {
-    public async Task<char?> NormalizeAsync(char c)
-        => char.ToUpper(c, culture ?? CultureInfo.InvariantCulture);
+    public async Task<string> NormalizeAsync(string s)
+        => s.ToLower(culture);
 }

@@ -8,5 +8,5 @@ namespace d9.gnc.core.Respacers;
 /// </summary>
 public interface ITextRespacer
 {
-    public IEnumerable<RespacedWord> Respace(string text);
+    public IAsyncEnumerable<RespacedWord> Respace(string text);
 }

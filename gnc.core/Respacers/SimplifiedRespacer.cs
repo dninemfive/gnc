@@ -11,7 +11,7 @@ public class SimplifiedRespacer(Random? random = null)
     : ITextRespacer
 {
     public readonly Random Random = random ?? new();
-    public IEnumerable<RespacedWord> Respace(string text)
+    public async IAsyncEnumerable<RespacedWord> Respace(string text)
     {
         int index = 0;
         while (index < text.Length)

@@ -19,18 +19,18 @@ public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, IT
         TranslationTable gamma_2 = await TranslationTable.ParseCsvAsync(Resources.TranslationTable_Gamma2);
 
         Random random = new(seed);
+        ITableProvider tableProvider = new SimpleTableProvider(random,
+            (alpha, 5),
+            (beta_1, 2), (beta_2, 2), (beta_3, 2),
+            (gamma_1, 1), (gamma_1, 1));
         NaibbeCipher result = new(
             new CompositeNormalizer(
                 new UppercaseNormalizer(),
-                new RegexNormalizer(new("[^A-Z]+")),
-                new DictionaryNormalizer(('K', 'C'), ('J', 'I'), ('W', 'U'))
+                new DictionaryNormalizer(('K', 'C'), ('J', 'I'), ('W', 'U')),
+                new KeyFilterNormalizer(tableProvider)
             ),
             new SimplifiedRespacer(random),
-            new SimpleTableProvider(random,
-                (alpha, 5),
-                (beta_1, 2), (beta_2, 2), (beta_3, 2),
-                (gamma_1, 1), (gamma_2, 1)
-            )
+            tableProvider
         );
 
         return result;

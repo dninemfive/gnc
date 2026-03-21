@@ -1,12 +1,16 @@
-﻿using d9.gnc.core.TableProviders;
+﻿using d9.gnc.core.Extensions;
+using d9.gnc.core.TableProviders;
 
 namespace d9.gnc.core.Normalizers;
 
-public class KeyFilterNormalizer(ITableProvider tables)
+public class KeyFilterNormalizer(ITableProvider provider)
     : ITextNormalizer
 {
-    public string Normalize(string text)
+    private IReadOnlySet<string> _keys = provider.Keys;
+    public async Task<string> NormalizeAsync(string text)
     {
-        throw new NotImplementedException();
+        foreach (string key in _keys)
+            text = text.Replace(key, "");
+        return text;
     }
 }
