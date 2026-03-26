@@ -1,0 +1,13 @@
+﻿<ol>
+    @foreach (ITextNormalizer normalizer in Normalizer.Components)
+    {
+        <li>
+            <NormalizerView Normalizer="normalizer" />
+        </li>
+    }
+</ol>
+
+@code {
+    [Parameter]
+    public required CompositeNormalizer Normalizer { get; set; }
+}

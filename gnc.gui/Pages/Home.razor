@@ -1,7 +1,19 @@
 ﻿@page "/"
+@using d9.gnc.gui.Components.Visual_Cipher_Editor
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+<NaibbeCipherView Cipher="@Cipher"/>
+
+@code {
+    public NaibbeCipher? Cipher { get; set; } = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Cipher = await NaibbeCipher.MakeDefault();
+    }
+}

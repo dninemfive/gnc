@@ -1,16 +1,13 @@
-﻿@if(Respacer is not null)
-{
+﻿<p>
     <label for="UnigramProportion">Unigram Proportion</label>
-    <input id="UnigramProportion" type="range" min="0" max="1" @bind-value="Respacer.UnigramProportion" />
-}
-else
-{
-    <div style="background-color: red; width: 5%">
-        <p>Missing <code>Respacer</code></p>
-    </div>
-}
+    <input id="UnigramProportion" type="number" min="0" max="1" step="0.05" @bind-value="Respacer.UnigramProportion" />
+    <details>
+        <summary>?</summary>
+        This is the proportion of unigrams in the <dfn id="respaced" title="respaced"/> text. After <dfn id="normalization" title="normalizing"/> the text
+    </details>
+</p>
 
 @code {
     [Parameter]
-    public SimplifiedRespacer? Respacer { get; set; } = null;
+    public required SimplifiedRespacer Respacer { get; set; }
 }

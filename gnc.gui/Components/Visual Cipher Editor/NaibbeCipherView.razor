@@ -1,0 +1,20 @@
+﻿@using d9.gnc.gui.Components.Visual_Cipher_Editor.Normalizers
+@if(Cipher is not null)
+{
+    <div class="cipher-component">
+        <label>Naibbe Cipher</label>
+        <div>
+            <label class="component-label">Normalizers</label>
+            <NormalizerView Normalizer="@Cipher.Normalizer" />
+        </div>
+        <div>
+            <label class="component-label">Respacer</label>
+            <RespacerView Respacer="@Cipher.Respacer" />
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public NaibbeCipher? Cipher { get; set; } = null;
+}

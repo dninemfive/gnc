@@ -1,0 +1,12 @@
+﻿.cipher-component {
+    border: 3px double black;
+    margin: 1%;
+}
+.component-label {
+    font-size: small;
+    font-style: italic;
+}
+div > div {
+    border: 1px solid black;
+    margin: 1%;
+}
