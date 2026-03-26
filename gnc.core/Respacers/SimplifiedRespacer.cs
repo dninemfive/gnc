@@ -17,7 +17,7 @@ public class SimplifiedRespacer(double unigramProportion = 0.5, Random? random =
         int index = 0;
         while (index < text.Length)
         {
-            int length = Random.NextDouble() < UnigramProportion ? 1 : 0; 
+            int length = Random.NextDouble() < UnigramProportion ? 1 : 2; 
             yield return RespacedWord.FromUnigramOrBigram(text.SubstringSafe(index, length));
             index += length;
         }
