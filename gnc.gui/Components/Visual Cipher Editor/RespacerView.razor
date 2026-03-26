@@ -1,0 +1,15 @@
+﻿<div>
+    @if (Respacer is SimplifiedRespacer sr)
+    {
+        <SimplifiedRespacerView Respacer="sr"/>
+    }
+    else
+    {
+        @Respacer.GetType().Name
+    }
+</div>
+
+@code {
+    [Parameter]
+    public required ITextRespacer Respacer { get; set; }
+}

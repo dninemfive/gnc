@@ -7,7 +7,7 @@ using d9.gnc.core.Types;
 
 namespace d9.gnc.core;
 // todo: permit non-encipherable text (e.g. punctuation, digits)
-public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, ITableProvider tableProvider)
+public record NaibbeCipher(ITextNormalizer Normalizer, ITextRespacer Respacer, ITableProvider TableProvider)
 {
     public static async Task<NaibbeCipher> MakeDefault(int seed = 0xd9)
     {
@@ -29,7 +29,7 @@ public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, IT
                 new DictionaryNormalizer(('K', 'C'), ('J', 'I'), ('W', 'U')),
                 new KeyFilterNormalizer(tableProvider)
             ),
-            new SimplifiedRespacer(random),
+            new SimplifiedRespacer(0.5, random),
             tableProvider
         );
 
@@ -37,13 +37,13 @@ public class NaibbeCipher(ITextNormalizer normalizer, ITextRespacer respacer, IT
     }
     public async IAsyncEnumerable<RespacedWord> Prepare(string text)
     {
-        await foreach (RespacedWord word in respacer.RespaceAsync(await normalizer.NormalizeAsync(text)))
+        await foreach (RespacedWord word in Respacer.RespaceAsync(await Normalizer.NormalizeAsync(text)))
             yield return word;
     }
     public EncipheredLetter Encipher(RespacedLetter letter)
     {
         (string key, LetterType type) = letter;
-        return (tableProvider.NextTable()[key][type], type);
+        return (TableProvider.NextTable()[key][type], type);
     }
     public EncipheredWord Encipher(RespacedWord word)
         => new(word.Select(Encipher));

@@ -6,7 +6,7 @@ public class DictionaryNormalizer(params IEnumerable<(char k, char v)> replaceme
     : ITextNormalizer
 {
     // todo: fix the duplicate method in utl
-    private IReadOnlyDictionary<char, char> _dict = replacements.Select(x => new KeyValuePair<char, char>(x.k, x.v)).ToDictionary();
+    public IReadOnlyDictionary<char, char> Replacements = replacements.Select(x => new KeyValuePair<char, char>(x.k, x.v)).ToDictionary();
     public async Task<string> NormalizeAsync(string s)
-        => s.Select(x => _dict.TryGetValue(x, out char c) ?  c : x).Join();
+        => s.Select(x => Replacements.TryGetValue(x, out char c) ?  c : x).Join();
 }

@@ -11,6 +11,6 @@ public class RespacedWord(params IEnumerable<RespacedLetter> letters)
         {
             1 => new([(s, LetterType.Unigram)]),
             2 => new([(s[0], LetterType.Prefix), (s[1], LetterType.Suffix)]),
-            _ => throw new ArgumentException("RespacedLetters can only (currently?) be made from unigrams or bigrams")
+            _ => throw new ArgumentException($"RespacedLetters can only (currently?) be made from unigrams or bigrams, but `{s}` is {s.Length} characters instead")
         };
 }

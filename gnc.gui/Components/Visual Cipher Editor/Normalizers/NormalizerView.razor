@@ -1,0 +1,19 @@
+﻿<div>
+    @if (Normalizer is CompositeNormalizer cn)
+    {
+        <CompositeNormalizerView Normalizer="cn" />
+    }
+    else if (Normalizer is DictionaryNormalizer dn)
+    {
+        <DictionaryNormalizerView Normalizer="dn" />
+    }
+    else
+    {
+        <div>@Normalizer.GetType().Name</div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public required ITextNormalizer Normalizer { get; set; }
+}

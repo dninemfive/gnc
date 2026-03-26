@@ -1,0 +1,16 @@
+﻿<div>
+    <label>Replace characters:</label>
+    <ol>
+        @foreach((char input, char output) in Replacements)
+        {
+            <li>Replace <input type="text" maxlength="1" value="@input" style="width: 1.5em"/> with <input type="text" value="@output" style="field-sizing: content;"/></li>
+        }
+    </ol>
+</div>
+
+@code {
+    [Parameter]
+    public required DictionaryNormalizer Normalizer { get; set; }
+
+    public IEnumerable<(char input, char output)> Replacements => Normalizer.Replacements.OrderBy(x => x.Key).Select(x => (x.Key, x.Value));
+}
